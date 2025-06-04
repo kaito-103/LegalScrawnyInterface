@@ -51,6 +51,41 @@ app.get("/spiderandom", async (req, res) => {
   }
 });
 
+const editLinks = [ 
+  "https://vt.tiktok.com/ZSk6onpYk/",
+  "https://vt.tiktok.com/ZSk6oXnYm/",
+  "https://vt.tiktok.com/ZSk6o3deF/",
+  "https://vt.tiktok.com/ZSk6o917D/",
+  "https://vt.tiktok.com/ZSk6oxsSS/",
+];
+
+app.get("/editrandom", async (req, res) => {
+  try {
+    const url = editLinks[Math.floor(Math.random() * editLinks.length)];
+    const api = `https://tikwm.com/api?url=${encodeURIComponent(url)}`;
+
+    const { data } = await axios.get(api, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; ShotiAPI/1.0)"
+      },
+      timeout: 10000
+    });
+
+    if (!data.data || !data.data.wmplay) {
+      return res.status(500).json({ error: "Failed to fetch video from Tikwm." });
+    }
+
+    const videoUrl = data.data.wmplay;
+    const title = data.data.title;
+    const author = data.data.author.nickname;
+
+    return res.json({ url: videoUrl, title: title, author: author });
+  } catch (err) {
+    console.error("❌ Error fetching TikTok video:", err.message);
+    return res.status(500).json({ error: "Error fetching TikTok video, please try again later." });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Shoti API is running on port ${PORT}`);
 });
