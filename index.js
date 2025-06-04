@@ -7,6 +7,12 @@ const PORT = 3000;
 
 app.use(cors());
 
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
 const tiktokLinks = [
   "https://vt.tiktok.com/ZSk6semaY/",
   "https://vt.tiktok.com/ZSk6pTJaF/",
@@ -43,10 +49,6 @@ app.get("/spiderandom", async (req, res) => {
     console.error("❌ Error fetching TikTok video:", err.message);
     return res.status(500).json({ error: "Error fetching TikTok video, please try again later." });
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("📺 Welcome to Shoti API with TikTok Support!");
 });
 
 app.listen(PORT, () => {
