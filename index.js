@@ -27,8 +27,10 @@ const tiktokLinks = [
 app.get("/spiderandom", async (req, res) => {
   try {
     const url = tiktokLinks[Math.floor(Math.random() * tiktokLinks.length)];
-    const api = `https://tikwm.com/api?url=${encodeURIComponent(url)}`;
+    const api = `https://tikwm.com/api?url=${encodeURIComponent(url)}&hd=1`;
 
+
+  
     const { data } = await axios.get(api, {
       headers: {
         "User-Agent": "Mozilla/5.0 (compatible; ShotiAPI/1.0)"
@@ -62,7 +64,7 @@ const editLinks = [
 app.get("/editrandom", async (req, res) => {
   try {
     const url = editLinks[Math.floor(Math.random() * editLinks.length)];
-    const api = `https://tikwm.com/api?url=${encodeURIComponent(url)}`;
+    const api = `https://tikwm.com/api?url=${encodeURIComponent(url)}&hd=1`;
 
     const { data } = await axios.get(api, {
       headers: {
